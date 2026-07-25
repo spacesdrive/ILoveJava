@@ -18,7 +18,7 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - Deployed to Cloudflare Pages (project `ilovejava`); `.github/workflows/deploy.yml` redeploys automatically on push to `main` when a deploy-relevant path changes, gated on `ci.yml` passing.
 - `public/_redirects` (SPA fallback for Cloudflare Pages) and `public/favicon.svg`.
 - Documented the full deploy pipeline, its secrets, and a "what can break this" maintenance section in `docs/cloudflare/OVERVIEW.md`.
-- Attached the `ilovejava.spacesdrive.cc` custom domain to the Cloudflare Pages project via the Cloudflare API (`spacesdrive.cc` is on the same account, so DNS/SSL provisioned automatically). Done via a one-time `workflow_dispatch` workflow, removed after use - see `docs/cloudflare/OVERVIEW.md`.
+- Attached and verified live the `ilovejava.spacesdrive.cc` custom domain on the Cloudflare Pages project, via two one-time `workflow_dispatch` workflows (removed after use) - see `docs/cloudflare/OVERVIEW.md`.
 
 ### Changed
 
@@ -33,3 +33,4 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - Restored `public/` (favicon and the new `_redirects`), which had never actually been committed since the initial scaffold despite `index.html` referencing `/favicon.svg`.
 - Deploy workflow: pinned `wrangler` as a `devDependency` and added `pnpm-workspace.yaml` (`allowBuilds: { esbuild: true, workerd: true }`) after the first deploy run failed - `wrangler-action`'s fallback install failed under pnpm 11's default build-script sandboxing.
 - Deploy workflow: added an idempotent `wrangler pages project create` step before every deploy, after the second deploy run failed with "The Pages project 'ilovejava' does not exist" - `wrangler pages deploy` does not create a project on the fly.
+- Custom domain: Cloudflare's documented automatic-CNAME-on-same-account behavior did not trigger when the domain was added via the raw API (the domain sat stuck reporting "CNAME record not set"); fixed by creating the CNAME record directly via the DNS API.

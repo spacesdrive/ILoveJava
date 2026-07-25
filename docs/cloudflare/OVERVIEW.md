@@ -7,7 +7,7 @@ Static hosting for the CSR SPA, project `ilovejava`, production branch `main`.
 - **Build command:** `pnpm build`
 - **Output directory:** `dist`
 - **Default URL:** `ilovejava.pages.dev` (Cloudflare-assigned)
-- **Custom domain:** `ilovejava.spacesdrive.cc` (referenced in [`src/constants/site.ts`](../../src/constants/site.ts)) - attached via the Cloudflare API (`POST /accounts/{account}/pages/projects/ilovejava/domains`). The `spacesdrive.cc` zone is on the same Cloudflare account, so the CNAME record and SSL certificate were provisioned automatically; no manual DNS step was needed. Provisioning takes a few minutes after attachment - if the domain 404s or doesn't resolve immediately after being added, that's expected, not a bug.
+- **Custom domain:** `ilovejava.spacesdrive.cc` (referenced in [`src/constants/site.ts`](../../src/constants/site.ts)) - live, verified serving the app with a valid certificate.
 - **SPA fallback:** [`public/_redirects`](../../public/_redirects) (`/* /index.html 200`) - required so a direct link or refresh on any client-side route (e.g. `/tools/whatever` once routes like that exist) resolves instead of 404ing. Cloudflare Pages copies everything under `public/` to the output root as-is.
 
 ## Deployment pipeline
@@ -27,7 +27,12 @@ Also runnable on demand: **Actions -> Deploy -> Run workflow** (`workflow_dispat
 
 ### Attaching a custom domain (already done, documented for the next one)
 
-Custom domains aren't managed through `wrangler` - there is no CLI command for it, only the Cloudflare dashboard or the REST API. `ilovejava.spacesdrive.cc` was attached via a one-time `workflow_dispatch` workflow that called `POST /accounts/{account}/pages/projects/{project}/domains` with the domain name, using the same `CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID` secrets as the deploy pipeline. That workflow was removed once the domain was confirmed attached, since it's a one-time operation with no reason to exist in the repo permanently - re-add a similar `workflow_dispatch` step (or use the dashboard) if another domain is ever needed.
+Custom domains aren't managed through `wrangler` - there is no CLI command for it, only the Cloudflare dashboard or the REST API. Attaching `ilovejava.spacesdrive.cc` took two API calls, both made via one-time `workflow_dispatch` workflows (removed once done) using the same `CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID` secrets as the deploy pipeline:
+
+1. `POST /accounts/{account}/pages/projects/ilovejava/domains` with `{"name": "ilovejava.spacesdrive.cc"}` - registers the domain against the Pages project.
+2. **A manual CNAME record was still required.** Despite the `spacesdrive.cc` zone being on the same account, Cloudflare's docs claim about automatic CNAME creation ("If your site is already managed as a Cloudflare zone, the CNAME record will be added automatically after you confirm your DNS record") did not hold true when the domain was added via the raw API - the domain sat in `status: pending` with `verification_data.error_message: "CNAME record not set"` and never progressed. The auto-creation appears to be a dashboard-flow behavior, not something the `POST .../domains` call triggers on its own. Fixed by creating the record directly: `POST /zones/{zone_id}/dns_records` with `{"type":"CNAME","name":"ilovejava.spacesdrive.cc","content":"ilovejava.pages.dev","proxied":true}` (zone ID for `spacesdrive.cc` obtained from the `zone_tag` field in step 1's response). The domain went live within about a minute of the CNAME existing.
+
+Re-adding a domain through the dashboard UI instead of the raw API may not hit this gap at all - the docs' auto-CNAME claim may genuinely be accurate for that path. Either way, if a future domain attachment gets stuck on `verification_data.error_message: "CNAME record not set"`, this is the fix.
 
 ### Trigger: which files redeploy the site
 
@@ -74,4 +79,4 @@ Read this before changing anything that touches the build, the workflow files, o
 
 ## Verifying a deploy
 
-After a deploy, check the job summary on the `Deploy` workflow run (written by `wrangler-action` when `gitHubToken` is set) for the deployment URL, or visit `https://ilovejava.pages.dev` directly. Hard-refresh if a very recent deploy doesn't appear to have taken effect - Cloudflare's edge cache can serve a stale asset briefly after a deploy.
+After a deploy, check the job summary on the `Deploy` workflow run (written by `wrangler-action` when `gitHubToken` is set) for the deployment URL, or visit `https://ilovejava.spacesdrive.cc` (or `https://ilovejava.pages.dev`) directly. Hard-refresh if a very recent deploy doesn't appear to have taken effect - Cloudflare's edge cache can serve a stale asset briefly after a deploy.
