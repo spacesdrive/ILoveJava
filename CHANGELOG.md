@@ -17,3 +17,8 @@ All notable changes to this project are documented here. Format follows [Keep a 
 
 - Renamed every folder-level `README.md` under `docs/` and `src/` to `OVERVIEW.md` to give each doc an actual, descriptive name instead of the generic default.
 - Replaced em dashes and en dashes with standard hyphens throughout the codebase and docs, per the writing standards.
+
+### Fixed
+
+- CI: pinned `packageManager` in `package.json` so `pnpm/action-setup` can resolve a pnpm version instead of failing with "No pnpm version is specified".
+- Dependabot: added `commit-message` prefixes (`chore(deps)` for npm, `ci(deps)` for GitHub Actions) so automated PRs follow the same Conventional Commits format as the rest of the repository.
