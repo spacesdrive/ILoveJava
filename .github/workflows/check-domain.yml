@@ -6,10 +6,28 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      ZONE_ID: b152483853eef3cccdf50becec773925
     steps:
       - name: Check domain status
         run: |
           curl -sS \
             "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/ilovejava/domains/ilovejava.spacesdrive.cc" \
             -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -w "\nHTTP %{http_code}\n"
+
+      - name: List existing DNS records for ilovejava.spacesdrive.cc
+        run: |
+          curl -sS \
+            "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records?name=ilovejava.spacesdrive.cc" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -w "\nHTTP %{http_code}\n"
+
+      - name: Create CNAME record if missing
+        run: |
+          curl -sS -X POST \
+            "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data '{"type":"CNAME","name":"ilovejava.spacesdrive.cc","content":"ilovejava.pages.dev","proxied":true}' \
             -w "\nHTTP %{http_code}\n"
