@@ -23,6 +23,7 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - `src/hooks/use-progress.ts` and `src/lib/idb.ts` - shared IndexedDB-backed completion/attempt tracking used by the lessons, exercises, and quizzes features.
 - `Card`, `Progress`, `Tabs`, `Accordion`, `Alert`, `Badge`, `RadioGroup`, `Checkbox`, `Input`, and `Label` shadcn/ui primitives, each with a component test.
 - Real favicon set (`public/favicon-{16,32,48,180,192,512}x*.png`) and `public/site.webmanifest`, replacing the placeholder `favicon.svg`; `index.html` links the 16/32/48px icons, the 180px apple-touch-icon, and the manifest (192/512px, used for PWA/home-screen icons).
+- Automated `sitemap.xml`/`robots.txt` generation: `src/lib/sitemap.ts` and `src/lib/robots-txt.ts` (pure, unit-tested XML/text builders and validation), `src/app/sitemap-routes.ts` (the single source of truth for indexable static routes), and `vite-sitemap-plugin.ts` (a build-only Vite plugin that validates and writes both files into `dist/` on every `pnpm build`, failing the build on an invalid entry). `src/app/__tests__/sitemap-routes.test.ts` guards against the route manifest drifting from `src/app/router.tsx`. See `docs/seo/OVERVIEW.md`.
 
 ### Changed
 
