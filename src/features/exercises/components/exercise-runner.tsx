@@ -13,6 +13,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import type { PlaygroundRunner } from '@/engines/playground-engine/types'
+import { useIsDarkMode } from '@/hooks/use-is-dark-mode'
 
 import { evaluateRun } from '../lib/evaluate-run'
 import type { ExerciseContent, ExerciseRunResult } from '../types'
@@ -39,6 +40,7 @@ export function ExerciseRunner({
   const [code, setCode] = React.useState(exercise.starterCode)
   const [result, setResult] = React.useState<ExerciseRunResult | null>(null)
   const [isRunning, setIsRunning] = React.useState(false)
+  const isDarkMode = useIsDarkMode()
   // Reset the editor/result when switching to a different exercise, via React's
   // "adjust state during render" pattern rather than an effect (avoids an extra
   // render pass and a synchronous setState-in-effect).
@@ -81,6 +83,7 @@ export function ExerciseRunner({
       <CodeMirror
         value={code}
         height="300px"
+        theme={isDarkMode ? 'dark' : 'light'}
         extensions={[java()]}
         onChange={(value) => setCode(value)}
         aria-label="Exercise code editor"
