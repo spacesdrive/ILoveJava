@@ -12,6 +12,9 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - Content and engine type contracts (`src/content`, `src/engines/*`) with no implementations yet.
 - `docs/WRITING_STANDARDS.md` and `docs/workflows/GIT.md` codifying writing, typography, and commit conventions.
 - Expanded `CLAUDE.md` with a reading order, full documentation map, and a documentation maintenance policy table.
+- `docs/mcp/OVERVIEW.md` documenting when and how to use each configured MCP server (Context7, shadcn, Filesystem, Chrome DevTools, Sequential Thinking, Parallel Search).
+- A "Project memory" section in `CLAUDE.md` defining the four durable, authoritative source-of-truth files and their precedence order.
+- Hard rules for research-before-implementing (MCP usage), reading the relevant docs first, strict security compliance, and removing dead code/files before every commit.
 
 ### Changed
 
@@ -22,3 +25,4 @@ All notable changes to this project are documented here. Format follows [Keep a 
 
 - CI: pinned `packageManager` in `package.json` so `pnpm/action-setup` can resolve a pnpm version instead of failing with "No pnpm version is specified".
 - Dependabot: added `commit-message` prefixes (`chore(deps)` for npm, `ci(deps)` for GitHub Actions) so automated PRs follow the same Conventional Commits format as the rest of the repository.
+- Corrected the site domain typo (`spacedrive` to `spacesdrive`) in `src/constants/site.ts`.

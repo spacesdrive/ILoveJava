@@ -24,6 +24,10 @@ React 19, TypeScript (strict), Vite, React Router (data-router API via `createBr
 - Functions, variables, hooks: `camelCase` (hooks additionally prefixed `use`)
 - Constants that are truly constant: `SCREAMING_SNAKE_CASE`
 
+## Code hygiene
+
+No dead code, no unused imports, no orphaned files - both `noUnusedLocals` and `noUnusedParameters` are enabled in `tsconfig.app.json` and will fail the build; don't work around them by prefixing an identifier with `_`, delete the code instead. If a file, component, or dependency becomes unused as a side effect of a change, remove it in the same change - see [docs/workflows/GIT.md](../workflows/GIT.md#pre-commit-checklist).
+
 ## Routing
 
 Routes are declared in [`src/app/router.tsx`](../../src/app/router.tsx) using `createBrowserRouter`. Route-level components live in `src/pages`; they compose feature components, they don't contain feature logic themselves. Lazy-load route components once there's more than a couple of routes (`React.lazy` + `<Suspense>`), so route-splitting stays real as the app grows.

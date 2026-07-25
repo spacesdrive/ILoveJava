@@ -146,11 +146,12 @@ git branch -d feat/lesson-renderer
 
 Run before every commit:
 
-1. `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` - all must pass
-2. `git status` - verify only intended files are staged
-3. `git diff --staged` - review the full diff before committing
-4. Check no secrets or credentials appear in the diff
-5. Verify `CHANGELOG.md` is updated if the commit adds a feature or fix
+1. Remove dead code, unused files, and unused dependencies introduced or orphaned by this change - a change is not done until it's clean, not just until it works (see `no unused imports`/`noUnusedLocals` in [docs/frontend/OVERVIEW.md](../frontend/OVERVIEW.md))
+2. `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` - all must pass
+3. `git status` - verify only intended files are staged
+4. `git diff --staged` - review the full diff before committing
+5. Check no secrets or credentials appear in the diff
+6. Verify `CHANGELOG.md` is updated if the commit adds a feature or fix
 
 ## Amending and history
 
