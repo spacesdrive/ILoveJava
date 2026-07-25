@@ -4,6 +4,8 @@ A free, open source, interactive platform for learning Java - lessons, exercises
 
 **Status:** engineering foundation. No lessons or Java content yet - see [ROADMAP.md](ROADMAP.md).
 
+**Live:** https://ilovejava.pages.dev (custom domain `ilovejava.spacesdrive.cc` pending, see [docs/cloudflare/OVERVIEW.md](docs/cloudflare/OVERVIEW.md)). Deploys automatically on push to `main` via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+
 ## Why browser-first
 
 ILoveJava executes locally whenever possible: no account, no server round-trip to read a lesson, works offline once cached. The one open question is Java code execution, which has no mainstream in-browser runtime - see [src/engines/playground-engine](src/engines/playground-engine) and [docs/decisions](docs/decisions). Everything else - progress, settings, search - is designed to work without a backend. Full rationale in [docs/architecture](docs/architecture).

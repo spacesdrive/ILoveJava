@@ -15,6 +15,9 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - `docs/mcp/OVERVIEW.md` documenting when and how to use each configured MCP server (Context7, shadcn, Filesystem, Chrome DevTools, Sequential Thinking, Parallel Search).
 - A "Project memory" section in `CLAUDE.md` defining the four durable, authoritative source-of-truth files and their precedence order.
 - Hard rules for research-before-implementing (MCP usage), reading the relevant docs first, strict security compliance, and removing dead code/files before every commit.
+- Deployed to Cloudflare Pages (project `ilovejava`); `.github/workflows/deploy.yml` redeploys automatically on push to `main` when a deploy-relevant path changes, gated on `ci.yml` passing.
+- `public/_redirects` (SPA fallback for Cloudflare Pages) and `public/favicon.svg`.
+- Documented the full deploy pipeline, its secrets, and a "what can break this" maintenance section in `docs/cloudflare/OVERVIEW.md`.
 
 ### Changed
 
@@ -26,3 +29,4 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - CI: pinned `packageManager` in `package.json` so `pnpm/action-setup` can resolve a pnpm version instead of failing with "No pnpm version is specified".
 - Dependabot: added `commit-message` prefixes (`chore(deps)` for npm, `ci(deps)` for GitHub Actions) so automated PRs follow the same Conventional Commits format as the rest of the repository.
 - Corrected the site domain typo (`spacedrive` to `spacesdrive`) in `src/constants/site.ts`.
+- Restored `public/` (favicon and the new `_redirects`), which had never actually been committed since the initial scaffold despite `index.html` referencing `/favicon.svg`.
