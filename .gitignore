@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Wrangler (Cloudflare Pages deploy)
+.wrangler
+
 # Testing
 coverage
 playwright-report

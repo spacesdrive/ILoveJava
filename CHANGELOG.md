@@ -30,3 +30,4 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - Dependabot: added `commit-message` prefixes (`chore(deps)` for npm, `ci(deps)` for GitHub Actions) so automated PRs follow the same Conventional Commits format as the rest of the repository.
 - Corrected the site domain typo (`spacedrive` to `spacesdrive`) in `src/constants/site.ts`.
 - Restored `public/` (favicon and the new `_redirects`), which had never actually been committed since the initial scaffold despite `index.html` referencing `/favicon.svg`.
+- Deploy workflow: pinned `wrangler` as a `devDependency` and added `pnpm-workspace.yaml` (`allowBuilds: { esbuild: true, workerd: true }`) after the first deploy run failed - `wrangler-action`'s fallback install failed under pnpm 11's default build-script sandboxing.
