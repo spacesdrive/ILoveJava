@@ -4,7 +4,7 @@ A free, open source, interactive platform for learning Java - lessons, exercises
 
 **Status:** engineering foundation. No lessons or Java content yet - see [ROADMAP.md](ROADMAP.md).
 
-**Live:** https://ilovejava.pages.dev (custom domain `ilovejava.spacesdrive.cc` pending, see [docs/cloudflare/OVERVIEW.md](docs/cloudflare/OVERVIEW.md)). Deploys automatically on push to `main` via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+**Live:** https://ilovejava.spacesdrive.cc (also at https://ilovejava.pages.dev). Deploys automatically on push to `main` via [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) - see [docs/cloudflare/OVERVIEW.md](docs/cloudflare/OVERVIEW.md).
 
 ## Why browser-first
 

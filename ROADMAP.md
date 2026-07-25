@@ -10,7 +10,7 @@
 - [x] Content/engine contracts (`src/content`, `src/engines/*`) - types only, no implementations
 - [x] CI (GitHub Actions): lint, typecheck, test, build on every PR
 - [x] Cloudflare Pages deployment, automated redeploy on push to `main`
-- [ ] Attach the `ilovejava.spacesdrive.cc` custom domain to the Cloudflare Pages project (manual dashboard step, see [docs/cloudflare/OVERVIEW.md](docs/cloudflare/OVERVIEW.md))
+- [x] Attach the `ilovejava.spacesdrive.cc` custom domain to the Cloudflare Pages project (see [docs/cloudflare/OVERVIEW.md](docs/cloudflare/OVERVIEW.md))
 
 ## Phase 1 - Content engine implementations
 

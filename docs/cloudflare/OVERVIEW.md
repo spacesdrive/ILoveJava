@@ -7,7 +7,7 @@ Static hosting for the CSR SPA, project `ilovejava`, production branch `main`.
 - **Build command:** `pnpm build`
 - **Output directory:** `dist`
 - **Default URL:** `ilovejava.pages.dev` (Cloudflare-assigned)
-- **Intended custom domain:** `ilovejava.spacesdrive.cc` (referenced in [`src/constants/site.ts`](../../src/constants/site.ts)) - not yet attached. Attaching it is a one-time manual step in the Cloudflare dashboard (Pages project -> Custom domains -> Add domain, on the `spacesdrive.cc` zone), not something the deploy workflow does. Do this once, then it's permanent.
+- **Custom domain:** `ilovejava.spacesdrive.cc` (referenced in [`src/constants/site.ts`](../../src/constants/site.ts)) - attached via the Cloudflare API (`POST /accounts/{account}/pages/projects/ilovejava/domains`). The `spacesdrive.cc` zone is on the same Cloudflare account, so the CNAME record and SSL certificate were provisioned automatically; no manual DNS step was needed. Provisioning takes a few minutes after attachment - if the domain 404s or doesn't resolve immediately after being added, that's expected, not a bug.
 - **SPA fallback:** [`public/_redirects`](../../public/_redirects) (`/* /index.html 200`) - required so a direct link or refresh on any client-side route (e.g. `/tools/whatever` once routes like that exist) resolves instead of 404ing. Cloudflare Pages copies everything under `public/` to the output root as-is.
 
 ## Deployment pipeline
@@ -20,10 +20,14 @@ push to main, touching a deploy-relevant path
                 -> wrangler pages project create ilovejava --production-branch=main
                    (continue-on-error: true - idempotent, only does anything the first time)
                 -> wrangler pages deploy dist --project-name=ilovejava --branch=main
-  -> live at ilovejava.pages.dev (and the custom domain, once attached)
+  -> live at ilovejava.pages.dev and ilovejava.spacesdrive.cc
 ```
 
-Also runnable on demand: **Actions -> Deploy -> Run workflow** (`workflow_dispatch`), for a redeploy that isn't tied to a file change (e.g. after attaching the custom domain, or recovering from a failed run).
+Also runnable on demand: **Actions -> Deploy -> Run workflow** (`workflow_dispatch`), for a redeploy that isn't tied to a file change (e.g. recovering from a failed run).
+
+### Attaching a custom domain (already done, documented for the next one)
+
+Custom domains aren't managed through `wrangler` - there is no CLI command for it, only the Cloudflare dashboard or the REST API. `ilovejava.spacesdrive.cc` was attached via a one-time `workflow_dispatch` workflow that called `POST /accounts/{account}/pages/projects/{project}/domains` with the domain name, using the same `CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID` secrets as the deploy pipeline. That workflow was removed once the domain was confirmed attached, since it's a one-time operation with no reason to exist in the repo permanently - re-add a similar `workflow_dispatch` step (or use the dashboard) if another domain is ever needed.
 
 ### Trigger: which files redeploy the site
 
