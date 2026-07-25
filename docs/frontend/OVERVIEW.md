@@ -10,12 +10,12 @@ React 19, TypeScript (strict), Vite, React Router (data-router API via `createBr
 - Function components only, no class components.
 - Props typed with an `interface` named `<Component>Props`, defined above the component.
 - Keep components small; extract a hook when logic exceeds ~1 screen of the render function.
-- `src/components/ui` holds shadcn-generated/pattern-matched primitives — treat them as generated code: prefer composing over editing, and if you must edit, keep the diff minimal and consistent with shadcn's own conventions so future `shadcn add` runs stay mergeable.
+- `src/components/ui` holds shadcn-generated/pattern-matched primitives - treat them as generated code: prefer composing over editing, and if you must edit, keep the diff minimal and consistent with shadcn's own conventions so future `shadcn add` runs stay mergeable.
 
 ## Imports
 
 - Use the `@/` alias for anything under `src/`; no relative `../../../` chains.
-- Import order: external packages, then `@/` absolute imports, then relative imports — enforced loosely by convention (see `eslint.config.js` for what's actually linted).
+- Import order: external packages, then `@/` absolute imports, then relative imports - enforced loosely by convention (see `eslint.config.js` for what's actually linted).
 
 ## Naming
 

@@ -14,9 +14,9 @@ We'll acknowledge reports within a few days and keep you updated as the issue is
 
 ILoveJava is a client-side application: as of this writing there is no backend, no user accounts, and no server-held user data. The primary risks in scope are:
 
-- **XSS** — anywhere user- or lesson-authored content is rendered as HTML/markdown (code blocks, MDX-like lesson blocks). All such content must be sanitized before rendering.
-- **Supply chain** — dependencies pulled into the client bundle. Keep dependencies minimal and audited (`pnpm audit`); avoid low-reputation or unmaintained packages.
-- **Secrets** — none should ever exist in client code. If a backend is introduced later (see [docs/decisions](docs/decisions)), its secrets are deployment configuration, never committed to the repo.
+- **XSS** - anywhere user- or lesson-authored content is rendered as HTML/markdown (code blocks, MDX-like lesson blocks). All such content must be sanitized before rendering.
+- **Supply chain** - dependencies pulled into the client bundle. Keep dependencies minimal and audited (`pnpm audit`); avoid low-reputation or unmaintained packages.
+- **Secrets** - none should ever exist in client code. If a backend is introduced later (see [docs/decisions](docs/decisions)), its secrets are deployment configuration, never committed to the repo.
 
 ## Supported versions
 

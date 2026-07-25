@@ -26,7 +26,7 @@ export type QuizQuestion =
 
 export interface QuizContent extends ContentMeta {
   questions: QuizQuestion[]
-  /** Fraction (0–1) of correct answers required to consider the quiz passed. */
+  /** Fraction (0-1) of correct answers required to consider the quiz passed. */
   passThreshold: number
 }
 

@@ -1,5 +1,5 @@
 // Template for a LessonContent entry. Copy, fill in, delete this comment block.
-// Do not add real lessons until a learning path has been designed — see ROADMAP.md.
+// Do not add real lessons until a learning path has been designed - see ROADMAP.md.
 import type { LessonContent } from '@/engines/lesson-engine/types'
 
 export const lesson: LessonContent = {

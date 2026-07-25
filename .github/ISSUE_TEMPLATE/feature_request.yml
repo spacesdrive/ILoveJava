@@ -26,5 +26,5 @@ body:
     attributes:
       label: Architecture check
       options:
-        - label: This can be implemented entirely client-side (see docs/architecture) — or I've explained below why it can't
+        - label: This can be implemented entirely client-side (see docs/architecture) - or I've explained below why it can't
           required: false

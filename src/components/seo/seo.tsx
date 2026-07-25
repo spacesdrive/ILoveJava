@@ -33,7 +33,7 @@ function upsertLink(rel: string, href: string) {
 /**
  * Applies page metadata directly to `document.head`.
  * The app is a client-rendered SPA, so this runs on mount/route change
- * rather than at request time — see docs/seo/README.md for crawlability notes.
+ * rather than at request time - see docs/seo/OVERVIEW.md for crawlability notes.
  */
 export function Seo({ title, description, canonical, image, noindex }: SeoProps) {
   React.useEffect(() => {

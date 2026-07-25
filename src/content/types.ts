@@ -1,7 +1,7 @@
 /**
  * Shared metadata contract every content type (lesson, exercise, quiz,
  * challenge, project) is built on top of. Individual engines extend this
- * with their own fields — see the types.ts file in each src/engines subfolder.
+ * with their own fields - see the types.ts file in each src/engines subfolder.
  */
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced'

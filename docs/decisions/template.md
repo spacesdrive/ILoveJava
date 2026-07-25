@@ -5,12 +5,12 @@
 
 ## Context
 
-What problem are we solving? What constraints apply? Keep this factual — no conclusions yet.
+What problem are we solving? What constraints apply? Keep this factual - no conclusions yet.
 
 ## Options considered
 
-1. **Option A** — description, tradeoffs
-2. **Option B** — description, tradeoffs
+1. **Option A** - description, tradeoffs
+2. **Option B** - description, tradeoffs
 
 If this decision is about introducing a backend, explicitly cover: browser-based approaches evaluated and why they're insufficient, what the backend enables, performance impact, maintenance cost, privacy implications, and whether the feature can remain optional.
 

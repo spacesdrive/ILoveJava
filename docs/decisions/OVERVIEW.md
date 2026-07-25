@@ -1,6 +1,6 @@
 # Architecture Decision Records
 
-A log of significant architecture decisions and why they were made — not a design doc, a record. Read [0001](0001-browser-first-csr-architecture.md) and [0002](0002-frontend-tech-stack.md) first; they're the foundation everything else builds on.
+A log of significant architecture decisions and why they were made - not a design doc, a record. Read [0001](0001-browser-first-csr-architecture.md) and [0002](0002-frontend-tech-stack.md) first; they're the foundation everything else builds on.
 
 ## When to write one
 

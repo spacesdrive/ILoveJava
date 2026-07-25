@@ -12,6 +12,6 @@ Assume every feature works without a backend. Before introducing one, evaluate i
 
 ## Known future candidate
 
-**Java code execution** (`src/engines/playground-engine`) is the one subsystem already flagged as possibly needing a backend — there is no mainstream in-browser JVM. See that engine's `README.md` for the two candidate strategies (in-browser WASM JVM vs. a small server sandbox) and why neither has been chosen yet.
+**Java code execution** (`src/engines/playground-engine`) is the one subsystem already flagged as possibly needing a backend - there is no mainstream in-browser JVM. See that engine's `OVERVIEW.md` for the two candidate strategies (in-browser WASM JVM vs. a small server sandbox) and why neither has been chosen yet.
 
 If and when a backend is introduced, see [../cloudflare](../cloudflare) for the deployment target.

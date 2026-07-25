@@ -5,7 +5,7 @@ export function HomePage() {
     <>
       <Seo
         title="Learn Java, Interactively"
-        description="ILoveJava is a free, open source, interactive platform for learning Java — lessons, exercises, playgrounds, and more, all in your browser."
+        description="ILoveJava is a free, open source, interactive platform for learning Java - lessons, exercises, playgrounds, and more, all in your browser."
       />
       <div className="mx-auto max-w-5xl px-4 py-16 text-center">
         <h1 className="text-4xl font-semibold tracking-tight">ILoveJava</h1>

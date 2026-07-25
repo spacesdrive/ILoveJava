@@ -16,9 +16,9 @@ export interface PlaygroundRunResult {
 
 /**
  * A PlaygroundRunner is the execution backend the UI talks to. Which mode
- * is active is an open architecture decision — see docs/decisions and this
- * folder's README. The UI must not assume either mode; it only depends on
- * this interface.
+ * is active is an open architecture decision - see docs/decisions and this
+ * folder's OVERVIEW.md. The UI must not assume either mode; it only depends
+ * on this interface.
  */
 export interface PlaygroundRunner {
   mode: PlaygroundExecutionMode
