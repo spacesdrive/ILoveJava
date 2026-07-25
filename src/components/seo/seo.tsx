@@ -8,6 +8,8 @@ export interface SeoProps {
   canonical?: string
   image?: string
   noindex?: boolean
+  /** JSON-LD object (e.g. a schema.org LearningResource) injected as a <script type="application/ld+json">. */
+  structuredData?: Record<string, unknown>
 }
 
 function upsertMeta(attr: 'name' | 'property', key: string, content: string) {
@@ -30,12 +32,38 @@ function upsertLink(rel: string, href: string) {
   el.setAttribute('href', href)
 }
 
+const JSON_LD_ID = 'seo-structured-data'
+
+function upsertJsonLd(data: Record<string, unknown> | undefined) {
+  const existing = document.getElementById(JSON_LD_ID)
+  if (!data) {
+    existing?.remove()
+    return
+  }
+
+  let el = existing as HTMLScriptElement | null
+  if (!el) {
+    el = document.createElement('script')
+    el.id = JSON_LD_ID
+    el.type = 'application/ld+json'
+    document.head.appendChild(el)
+  }
+  el.textContent = JSON.stringify(data)
+}
+
 /**
  * Applies page metadata directly to `document.head`.
  * The app is a client-rendered SPA, so this runs on mount/route change
  * rather than at request time - see docs/seo/OVERVIEW.md for crawlability notes.
  */
-export function Seo({ title, description, canonical, image, noindex }: SeoProps) {
+export function Seo({
+  title,
+  description,
+  canonical,
+  image,
+  noindex,
+  structuredData,
+}: SeoProps) {
   React.useEffect(() => {
     const fullTitle = `${title} · ${SITE_NAME}`
     document.title = fullTitle
@@ -57,7 +85,9 @@ export function Seo({ title, description, canonical, image, noindex }: SeoProps)
     const url = canonical ?? `${SITE_URL}${window.location.pathname}`
     upsertLink('canonical', url)
     upsertMeta('property', 'og:url', url)
-  }, [title, description, canonical, image, noindex])
+
+    upsertJsonLd(structuredData)
+  }, [title, description, canonical, image, noindex, structuredData])
 
   return null
 }

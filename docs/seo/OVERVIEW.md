@@ -42,8 +42,8 @@ This is a single in-memory pass over a small, explicit list (no filesystem scann
 
 React Router's `createBrowserRouter` config (`src/app/router.tsx`) isn't file-based, so there's no filesystem to scan for "all routes" the way a Next.js `app/` directory would provide. Instead:
 
-- **Static routes** (today: just `/`) are listed explicitly in `src/app/sitemap-routes.ts`. [`src/app/__tests__/sitemap-routes.test.ts`](../../src/app/__tests__/sitemap-routes.test.ts) asserts every path in that list resolves to a real route in `router.tsx` (via `matchRoutes`) and not the catch-all 404 - if a route is renamed or removed without updating the manifest, this test fails, which is the enforcement mechanism for "the sitemap can't silently drift from the router."
-- **Content-driven routes** (lessons, exercises, quizzes, docs, blog posts, category/tool/landing pages once they exist) are not in this list and don't need to be added to it one by one - see [Future extension points](#future-extension-points) below.
+- **Static routes** (`/` and `/learn/java-fundamentals`, the path overview) are listed explicitly in `src/app/sitemap-routes.ts`. [`src/app/__tests__/sitemap-routes.test.ts`](../../src/app/__tests__/sitemap-routes.test.ts) asserts every path in that list resolves to a real route in `router.tsx` (via `matchRoutes`) and not the catch-all 404 - if a route is renamed or removed without updating the manifest, this test fails, which is the enforcement mechanism for "the sitemap can't silently drift from the router."
+- **Content-driven routes** (today: the ten Java Fundamentals lessons; future: exercises, quizzes, docs, blog posts, category/tool/landing pages) are not in that static list - see [Content-driven sitemap entries](#content-driven-sitemap-entries) below.
 
 ### Excluded routes
 
@@ -56,14 +56,14 @@ Anything with no entry in `src/app/sitemap-routes.ts` is excluded by default (op
 - Changing `SITE_URL` (e.g. a domain change): edit [`src/constants/site.ts`](../../src/constants/site.ts) only - both `sitemap.xml`'s `<loc>` values and `robots.txt`'s `Sitemap:` line derive from it.
 - Custom crawl rules (a future `Disallow`): edit `CRAWL_RULES` in `src/lib/robots-txt.ts`, not a static `public/robots.txt` (there isn't one - it's generated).
 
-### Future extension points
+### Content-driven sitemap entries
 
-Once a content index exists (`src/content`, per [../content](../content)), add one function per content type that reads the index and returns `SitemapEntry[]` (e.g. `getLessonSitemapEntries()`, `getDocSitemapEntries()`), then merge its output into the `entries` array built in `vite-sitemap-plugin.ts` alongside `staticSitemapRoutes`. This keeps the pattern uniform: every content type contributes entries through the same `SitemapEntry` shape and the same `validateSitemapEntries`/`buildSitemapXml` pipeline, regardless of whether it's a static route or generated from thousands of content records. Do not build this ahead of a real content index - see the "no placeholder features" rule in [CLAUDE.md](../../CLAUDE.md).
+The pattern anticipated here is now in use for the Java Fundamentals lessons: [`getLessonSitemapEntries()`](../../src/features/lessons/content/java-fundamentals/index.ts) reads `javaFundamentalsLessons` and returns `SitemapEntry[]`, merged into the `entries` array built in `vite-sitemap-plugin.ts` alongside `staticSitemapRoutes`. A future content type (docs, blog posts, exercises with their own pages) follows the same shape: one function that reads its content index and returns `SitemapEntry[]`, merged in the same way. Every content type contributes through the same `SitemapEntry` shape and the same `validateSitemapEntries`/`buildSitemapXml` pipeline, whether it's a static route or generated from thousands of content records. Don't build a new content type's sitemap source ahead of that content type actually existing - see the "no placeholder features" rule in [CLAUDE.md](../../CLAUDE.md).
 
 ### Structured data
 
-Not yet implemented - added once there are real routes to describe. When lessons land: JSON-LD (`Course`/`LearningResource` schema) injected the same way as other head metadata (see [`Seo`](../../src/components/seo/seo.tsx)).
+Implemented: `<Seo structuredData={...} />` (see [`Seo`](../../src/components/seo/seo.tsx)) injects a JSON-LD `<script type="application/ld+json">` tag the same way other head metadata is upserted. `lesson-page.tsx` emits a `LearningResource` (nested inside a `Course`); `learning-path-page.tsx` emits a `Course` listing its lessons as `CourseInstance` entries. Passing a new `structuredData` object each render replaces the previous one; omitting it removes the tag entirely (see `src/components/seo/__tests__/seo.test.tsx`).
 
 ## URLs
 
-Structured and stable: `/learn/<path-slug>/<lesson-slug>`, `/exercises/<slug>`, etc. Slugs are permanent (see [../content](../content)) - a URL that's been indexed should not need to change.
+Structured and stable: `/learn/<path-slug>/<lesson-slug>` (live: `/learn/java-fundamentals/<slug>`), `/exercises/<slug>`, etc. Slugs are permanent (see [../content](../content)) - a URL that's been indexed should not need to change.

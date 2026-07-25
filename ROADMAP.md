@@ -22,8 +22,8 @@
 
 ## Phase 2 - First real content
 
-- [ ] First learning path defined (topics provided by the project owner)
-- [ ] First lessons, exercises, and quizzes shipped end to end
+- [x] First learning path defined: **Java Fundamentals**, 10 lessons (`src/features/lessons/content/java-fundamentals`), topics provided by the project owner
+- [x] First lessons, exercises, and quizzes shipped end to end - `/learn/java-fundamentals` and `/learn/java-fundamentals/<slug>`, live in the sitemap. Exercises and quizzes ship embedded in lesson content (`quiz`/`exercise` blocks) rather than as separate standalone pages; exercises don't execute real code yet, pending [ADR 0003](docs/decisions/0003-java-code-execution-strategy.md).
 
 ## Phase 3 - Platform features
 

@@ -1,7 +1,9 @@
+import type { ThemedToken } from '@shikijs/types'
 import * as React from 'react'
-import type { BundledLanguage, ThemedToken } from 'shiki'
 
 import { cn } from '@/lib/utils'
+
+import { highlightLessonCode } from './lesson-code-highlighter'
 
 export interface LessonCodeBlockProps {
   language: string
@@ -32,16 +34,10 @@ export function LessonCodeBlock({
   React.useEffect(() => {
     let cancelled = false
 
-    import('shiki')
-      .then(({ codeToTokens }) =>
-        codeToTokens(code, {
-          // Lesson content authors an arbitrary language string; an unrecognized
-          // one throws, which the .catch below turns into the plain-text fallback.
-          lang: language as BundledLanguage,
-          themes: { light: 'github-light', dark: 'github-dark' },
-          defaultColor: false,
-        }),
-      )
+    // Lesson content authors an arbitrary language string; one this app's fine-grained
+    // Shiki bundle doesn't register (see lesson-code-highlighter.ts) throws, which the
+    // .catch below turns into the plain-text fallback.
+    highlightLessonCode(code, language)
       .then(({ tokens }) => {
         if (!cancelled) setState({ status: 'highlighted', lines: tokens })
       })

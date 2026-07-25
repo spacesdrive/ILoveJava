@@ -4,6 +4,7 @@ import type { Plugin, ResolvedConfig } from 'vite'
 
 import { staticSitemapRoutes } from './src/app/sitemap-routes.ts'
 import { SITE_URL } from './src/constants/site.ts'
+import { getLessonSitemapEntries } from './src/features/lessons/content/java-fundamentals/index.ts'
 import { buildRobotsTxt } from './src/lib/robots-txt.ts'
 import { buildSitemapXml, validateSitemapEntries } from './src/lib/sitemap.ts'
 
@@ -26,7 +27,7 @@ export function sitemapPlugin(): Plugin {
       resolvedConfig = config
     },
     closeBundle() {
-      const entries = staticSitemapRoutes
+      const entries = [...staticSitemapRoutes, ...getLessonSitemapEntries()]
       const errors = validateSitemapEntries(entries)
       if (errors.length > 0) {
         throw new Error(

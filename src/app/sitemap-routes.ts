@@ -1,8 +1,4 @@
-// Relative + extensioned (not the usual `@/` alias) because this file is also
-// imported by vite-sitemap-plugin.ts under tsconfig.node.json's "nodenext"
-// module resolution, which requires explicit extensions and can't resolve the
-// `@/` alias (that mapping only exists in tsconfig.app.json).
-import type { SitemapEntry } from '../lib/sitemap.ts'
+import type { SitemapEntry } from '@/lib/sitemap'
 
 /**
  * Every publicly indexable static route in the app - the single source of truth
@@ -21,4 +17,5 @@ import type { SitemapEntry } from '../lib/sitemap.ts'
  */
 export const staticSitemapRoutes: SitemapEntry[] = [
   { path: '/', changefreq: 'weekly', priority: 1 },
+  { path: '/learn/java-fundamentals', changefreq: 'weekly', priority: 0.9 },
 ]

@@ -17,6 +17,12 @@
 
 As of the engineering-foundation commit: production build is ~324 KB JS / ~104 KB gzip (React + Router + Framer Motion + app shell), ~23 KB CSS / ~7 KB gzip. Re-check this number as features land; if it grows without a corresponding feature justifying it, that's a regression worth investigating.
 
+With the Java Fundamentals lessons (ten lessons, `/learn/java-fundamentals/*`), the home route's own bundle is essentially unchanged (~184 KB JS / ~59 KB gzip) - the lesson-rendering machinery (Shiki, CodeMirror, the lesson/exercise/quiz features) is entirely behind the lazy-loaded lesson routes, per the lazy-load rule above. Those lesson-route chunks are large (roughly 480-540 KB / 150-170 KB gzip, dominated by `@uiw/react-codemirror` and `@codemirror/lang-java` for the exercise editor) - acceptable for now since they only load when a learner opens a lesson, but worth a closer look (manual chunking, deferring CodeMirror until "Run" is first needed) if that route's Lighthouse score doesn't hold up under measurement.
+
+### Shiki: fine-grained bundle, not the full package
+
+`src/features/lessons/components/lesson-code-highlighter.ts` imports `@shikijs/core` + `@shikijs/engine-javascript` + `@shikijs/langs/java` + `@shikijs/langs/bash` + two themes directly, instead of the top-level `shiki` package. The full package's default highlighter bundles every supported language and theme plus the WASM oniguruma regex engine - in this app that produced several megabytes of async chunks (one per bundled language) the very first time any lesson code block rendered, for a course that only ever highlights Java and the occasional shell command. The fine-grained bundle plus the pure-JS regex engine (`@shikijs/engine-javascript`, no WASM) cut the highlighting-related chunks to a few dozen KB each. Adding a third language to lesson content means adding its `@shikijs/langs/<name>` import to `lesson-code-highlighter.ts`, not switching back to the full package. See [ADR 0004](../decisions/0004-phase-1-content-engine-dependencies.md).
+
 ## Offline
 
 Not yet implemented. A service worker (Cache API) for offline-capable core content is planned once there's real content to cache - see [ROADMAP.md](../../ROADMAP.md).

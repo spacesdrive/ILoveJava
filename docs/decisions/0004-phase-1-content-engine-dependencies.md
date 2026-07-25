@@ -18,9 +18,11 @@
 
 Adopt `react-markdown` + `remark-gfm`, `shiki`, `@uiw/react-codemirror` (+ `@codemirror/lang-java`), and `idb`.
 
+**Amendment (2026-01-20, first real lesson content):** once the Java Fundamentals lessons landed and bundle analysis became meaningful (per the consequence below), the plain `shiki` package was replaced with its fine-grained sub-packages - `@shikijs/core`, `@shikijs/engine-javascript`, `@shikijs/langs/java`, `@shikijs/langs/bash`, and two `@shikijs/themes` - imported directly by `src/features/lessons/components/lesson-code-highlighter.ts`. The plain package's default highlighter bundles every language Shiki supports plus the WASM oniguruma engine; lazy-loading it (as originally decided below) only deferred _when_ that multi-megabyte payload loaded, not its size. The fine-grained bundle plus the pure-JS regex engine (no WASM) cut it to a few dozen KB. `shiki` itself was removed as a direct dependency - see [docs/performance/OVERVIEW.md](../performance/OVERVIEW.md#shiki-fine-grained-bundle-not-the-full-package).
+
 ## Consequences
 
-- Four new runtime dependencies to track for updates/security advisories, per [docs/security](../security).
-- Shiki is imported lazily inside the lesson code-block renderer so the app shell bundle is unaffected for routes that never render a code block; this should be re-checked against `docs/performance/OVERVIEW.md` targets once real lesson content exists and bundle analysis is meaningful.
+- Four new runtime dependencies to track for updates/security advisories, per [docs/security](../security) (five, counting the `@shikijs/*` sub-packages as a unit rather than a separate dependency from `shiki`).
+- ~~Shiki is imported lazily inside the lesson code-block renderer so the app shell bundle is unaffected for routes that never render a code block; this should be re-checked against `docs/performance/OVERVIEW.md` targets once real lesson content exists and bundle analysis is meaningful.~~ Re-checked; see the amendment above.
 - `idb`'s schema (`src/lib/idb.ts`) becomes the source of truth for what "progress" means on disk; changing it later requires a version bump and, if the stored shape changes incompatibly, a migration in the `upgrade` callback.
 - `fake-indexeddb` is added as a dev-only test dependency to exercise `src/lib/idb.ts`/`src/hooks/use-progress.ts` under Vitest's jsdom environment (jsdom has no native `indexedDB`); it is never shipped.
