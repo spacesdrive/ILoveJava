@@ -31,3 +31,4 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - Corrected the site domain typo (`spacedrive` to `spacesdrive`) in `src/constants/site.ts`.
 - Restored `public/` (favicon and the new `_redirects`), which had never actually been committed since the initial scaffold despite `index.html` referencing `/favicon.svg`.
 - Deploy workflow: pinned `wrangler` as a `devDependency` and added `pnpm-workspace.yaml` (`allowBuilds: { esbuild: true, workerd: true }`) after the first deploy run failed - `wrangler-action`'s fallback install failed under pnpm 11's default build-script sandboxing.
+- Deploy workflow: added an idempotent `wrangler pages project create` step before every deploy, after the second deploy run failed with "The Pages project 'ilovejava' does not exist" - `wrangler pages deploy` does not create a project on the fly.
