@@ -44,9 +44,9 @@ src/
   pages/          Route-level components, composed from features
   test/           Test setup
 
-public/           Static assets served as-is from the site root (favicon,
-                  the Cloudflare Pages SPA fallback `_redirects` file) -
-                  see docs/cloudflare/OVERVIEW.md
+public/           Static assets served as-is from the site root (favicons,
+                  site.webmanifest, the Cloudflare Pages SPA fallback
+                  `_redirects` file) - see docs/cloudflare/OVERVIEW.md
 ```
 
 Every folder has its own `OVERVIEW.md` - read it before adding files there. Rules are enforced by convention and code review, not tooling, until the codebase is large enough to justify lint rules for import boundaries.

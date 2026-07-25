@@ -1,6 +1,8 @@
 # hooks/
 
-Shared React hooks used across two or more features (e.g. `use-local-storage`, `use-media-query`).
+Shared React hooks used across two or more features.
+
+- `use-progress.ts` - IndexedDB-backed completion/attempt tracking (`src/lib/idb.ts`), used by `src/features/lessons`, `src/features/exercises`, and `src/features/quizzes`. Falls back to an always-incomplete, read-only state when `indexedDB` is unavailable rather than throwing.
 
 Rules:
 

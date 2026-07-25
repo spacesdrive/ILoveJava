@@ -112,3 +112,12 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
 }
+
+/*
+ * Shiki dual-theme tokens (src/features/lessons) carry both --shiki-light and
+ * --shiki-dark as inline custom properties; the light color is applied inline,
+ * this rule is the dark-mode override. See docs/content/OVERVIEW.md.
+ */
+.dark .lesson-code-block span {
+  color: var(--shiki-dark) !important;
+}

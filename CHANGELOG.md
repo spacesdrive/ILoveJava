@@ -16,9 +16,13 @@ All notable changes to this project are documented here. Format follows [Keep a 
 - A "Project memory" section in `CLAUDE.md` defining the four durable, authoritative source-of-truth files and their precedence order.
 - Hard rules for research-before-implementing (MCP usage), reading the relevant docs first, strict security compliance, and removing dead code/files before every commit.
 - Deployed to Cloudflare Pages (project `ilovejava`); `.github/workflows/deploy.yml` redeploys automatically on push to `main` when a deploy-relevant path changes, gated on `ci.yml` passing.
-- `public/_redirects` (SPA fallback for Cloudflare Pages) and `public/favicon.svg`.
+- `public/_redirects` (SPA fallback for Cloudflare Pages).
 - Documented the full deploy pipeline, its secrets, and a "what can break this" maintenance section in `docs/cloudflare/OVERVIEW.md`.
 - Attached and verified live the `ilovejava.spacesdrive.cc` custom domain on the Cloudflare Pages project, via two one-time `workflow_dispatch` workflows (removed after use) - see `docs/cloudflare/OVERVIEW.md`.
+- Phase 1 content engine implementations ([ADR 0004](docs/decisions/0004-phase-1-content-engine-dependencies.md)): `src/features/lessons` (`LessonRenderer`, markdown via `react-markdown`/`remark-gfm`, lazily-loaded Shiki syntax highlighting), `src/features/exercises` (`ExerciseRunner`, an editable CodeMirror-based code exercise UI with an optional `PlaygroundRunner` prop - no runner is wired up yet, see [ADR 0003](docs/decisions/0003-java-code-execution-strategy.md)), `src/features/quizzes` (`QuizRenderer`, scores MCQ/true-false/fill-in questions against `passThreshold`).
+- `src/hooks/use-progress.ts` and `src/lib/idb.ts` - shared IndexedDB-backed completion/attempt tracking used by the lessons, exercises, and quizzes features.
+- `Card`, `Progress`, `Tabs`, `Accordion`, `Alert`, `Badge`, `RadioGroup`, `Checkbox`, `Input`, and `Label` shadcn/ui primitives, each with a component test.
+- Real favicon set (`public/favicon-{16,32,48,180,192,512}x*.png`) and `public/site.webmanifest`, replacing the placeholder `favicon.svg`; `index.html` links the 16/32/48px icons, the 180px apple-touch-icon, and the manifest (192/512px, used for PWA/home-screen icons).
 
 ### Changed
 

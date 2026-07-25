@@ -16,6 +16,13 @@ Accessibility and performance checks are folded into these layers (see below), n
 - **Utilities** (`src/lib`, `src/content`): pure input/output, including edge cases.
 - **E2E**: the paths a real learner takes - navigating, completing an exercise, switching theme - not implementation detail. Keep the suite small and high-value; unit/component tests should catch most regressions.
 
+## Browser APIs jsdom doesn't implement
+
+`src/test/setup.ts` polyfills two APIs jsdom lacks, needed by the content engine features (`src/features/lessons`, `exercises`, `quizzes`):
+
+- `indexedDB` - via `fake-indexeddb/auto`, for `src/hooks/use-progress.ts`. Tests in the same file share one in-memory database (the connection is cached module-level in `src/lib/idb.ts`) - use distinct slugs per test rather than trying to reset it between tests.
+- `ResizeObserver` - a no-op stub, needed for `@uiw/react-codemirror` (`src/features/exercises`) to mount in jsdom.
+
 ## Accessibility in tests
 
 Prefer queries that mirror how assistive tech finds elements - `getByRole`, `getByLabelText` - over `getByTestId`. If a component can't be found by role/label, that's usually an accessibility bug, not a test problem.

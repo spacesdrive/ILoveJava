@@ -14,11 +14,11 @@
 
 ## Phase 1 - Content engine implementations
 
-- [ ] Lesson renderer for `LessonContent` blocks (prose, code, callout, visualization, check)
-- [ ] Progress persistence (IndexedDB) and a `useProgress` hook
-- [ ] ADR + implementation for Java code execution (`docs/decisions`, `src/engines/playground-engine`)
-- [ ] Exercise runner UI built on the playground engine
-- [ ] Quiz/MCQ renderer and scoring
+- [x] Lesson renderer for `LessonContent` blocks (prose, code, callout; visualization/check render an honest "not yet available" notice - see [src/features/lessons](../src/features/lessons))
+- [x] Progress persistence (IndexedDB) and a `useProgress` hook
+- [ ] ADR + implementation for Java code execution (`docs/decisions`, `src/engines/playground-engine`) - [ADR 0003](docs/decisions/0003-java-code-execution-strategy.md) is still `proposed`, no `PlaygroundRunner` exists. The exercise runner UI (below) is unblocked via an optional `runner` prop that's simply not supplied yet, per the ADR's own note that UI work can proceed independently.
+- [x] Exercise runner UI built on the playground engine (runner not yet wired - see above)
+- [x] Quiz/MCQ renderer and scoring
 
 ## Phase 2 - First real content
 
