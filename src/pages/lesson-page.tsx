@@ -11,6 +11,7 @@ import {
 import { Seo } from '@/components/seo/seo'
 import { SITE_URL } from '@/constants/site'
 import type { ExerciseContent } from '@/engines/exercise-engine/types'
+import { wasmJvmRunner } from '@/engines/playground-engine/wasm-jvm/wasm-jvm-runner'
 import type { QuizContent } from '@/engines/quiz-engine/types'
 import { useExerciseProgress, ExerciseRunner } from '@/features/exercises'
 import {
@@ -38,7 +39,13 @@ function LessonQuizBlock({ quiz }: { quiz: QuizContent }) {
 
 function LessonExerciseBlock({ exercise }: { exercise: ExerciseContent }) {
   const { recordResult } = useExerciseProgress(exercise.slug)
-  return <ExerciseRunner exercise={exercise} onRunComplete={recordResult} />
+  return (
+    <ExerciseRunner
+      exercise={exercise}
+      runner={wasmJvmRunner}
+      onRunComplete={recordResult}
+    />
+  )
 }
 
 export function LessonPage() {

@@ -16,14 +16,14 @@
 
 - [x] Lesson renderer for `LessonContent` blocks (prose, code, callout; visualization/check render an honest "not yet available" notice - see [src/features/lessons](../src/features/lessons))
 - [x] Progress persistence (IndexedDB) and a `useProgress` hook
-- [ ] ADR + implementation for Java code execution (`docs/decisions`, `src/engines/playground-engine`) - [ADR 0003](docs/decisions/0003-java-code-execution-strategy.md) is still `proposed`, no `PlaygroundRunner` exists. The exercise runner UI (below) is unblocked via an optional `runner` prop that's simply not supplied yet, per the ADR's own note that UI work can proceed independently.
-- [x] Exercise runner UI built on the playground engine (runner not yet wired - see above)
+- [x] ADR + implementation for Java code execution (`docs/decisions`, `src/engines/playground-engine`) - [ADR 0003](docs/decisions/0003-java-code-execution-strategy.md) is `accepted`: `wasm-jvm` via CheerpJ, real client-side compilation and execution in a dedicated Web Worker, wired into every exercise block via `wasmJvmRunner`
+- [x] Exercise runner UI built on the playground engine, now running real Java code end to end
 - [x] Quiz/MCQ renderer and scoring
 
 ## Phase 2 - First real content
 
 - [x] First learning path defined: **Java Fundamentals**, 10 lessons (`src/features/lessons/content/java-fundamentals`), topics provided by the project owner
-- [x] First lessons, exercises, and quizzes shipped end to end - `/learn/java-fundamentals` and `/learn/java-fundamentals/<slug>`, live in the sitemap. Exercises and quizzes ship embedded in lesson content (`quiz`/`exercise` blocks) rather than as separate standalone pages; exercises don't execute real code yet, pending [ADR 0003](docs/decisions/0003-java-code-execution-strategy.md).
+- [x] First lessons, exercises, and quizzes shipped end to end - `/learn/java-fundamentals` and `/learn/java-fundamentals/<slug>`, live in the sitemap. Exercises and quizzes ship embedded in lesson content (`quiz`/`exercise` blocks) rather than as separate standalone pages; exercises compile and run real Java code via [ADR 0003](docs/decisions/0003-java-code-execution-strategy.md)'s `wasm-jvm` runner.
 
 ## Phase 3 - Platform features
 

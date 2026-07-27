@@ -15,6 +15,11 @@ dist-ssr
 # Wrangler (Cloudflare Pages deploy)
 .wrangler
 
+# Downloaded by scripts/fetch-tools-jar.mjs (postinstall) - the javac compiler,
+# served to CheerpJ as the wasm-jvm exercise playground's compile classpath.
+# See ADR 0003 and src/engines/playground-engine/wasm-jvm/OVERVIEW.md.
+public/tools.jar
+
 # Testing
 coverage
 playwright-report

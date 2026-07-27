@@ -6,12 +6,12 @@ The content system is an engine, not a content library - it must support thousan
 - [`src/engines/lesson-engine`](../../src/engines/lesson-engine) - `LessonContent`, block-based - see its `OVERVIEW.md` for the full list of block types
 - [`src/engines/exercise-engine`](../../src/engines/exercise-engine) - `ExerciseContent`, prompt + starter/solution code + test cases
 - [`src/engines/quiz-engine`](../../src/engines/quiz-engine) - `QuizContent`, MCQ/true-false/fill-in questions
-- [`src/engines/playground-engine`](../../src/engines/playground-engine) - the Java execution contract (open question, see [../decisions](../decisions))
+- [`src/engines/playground-engine`](../../src/engines/playground-engine) - the Java execution contract, implemented as `wasm-jvm` via CheerpJ (see [../decisions](../decisions))
 
 ## Rendering and progress persistence
 
 - [`src/features/lessons`](../../src/features/lessons) - `LessonRenderer` renders `LessonBlock[]`, delegating `quiz`/`exercise` blocks to the caller (see the feature's `OVERVIEW.md` for why - feature isolation). Visualizations resolve against a diagram registry (`src/features/lessons/components/diagrams`).
-- [`src/features/exercises`](../../src/features/exercises) - `ExerciseRunner`, an editable code exercise UI. It accepts an optional `PlaygroundRunner`; none is wired up anywhere yet (see [ADR 0003](../decisions/0003-java-code-execution-strategy.md)), so running an exercise today reports execution as unavailable rather than faking a result.
+- [`src/features/exercises`](../../src/features/exercises) - `ExerciseRunner`, an editable code exercise UI. It accepts an optional `PlaygroundRunner`; `src/pages/lesson-page.tsx` wires in `wasmJvmRunner` (see [ADR 0003](../decisions/0003-java-code-execution-strategy.md)) so running an exercise compiles and executes real Java code.
 - [`src/features/quizzes`](../../src/features/quizzes) - `QuizRenderer`, one question at a time, scored against `passThreshold`.
 - [`src/hooks/use-progress.ts`](../../src/hooks/use-progress.ts) and [`src/lib/idb.ts`](../../src/lib/idb.ts) - shared IndexedDB-backed completion/attempt tracking used by all three features.
 

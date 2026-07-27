@@ -18,9 +18,12 @@ import { useIsDarkMode } from '@/hooks/use-is-dark-mode'
 import { evaluateRun } from '../lib/evaluate-run'
 import type { ExerciseContent, ExerciseRunResult } from '../types'
 
+/** The worst-case time budget for a run, generous enough to cover a cold CheerpJ worker (runtime download + init) on a slow connection - see ADR 0003. Warm runs finish in a fraction of this. */
+const RUN_TIMEOUT_MS = 60_000
+
 export interface ExerciseRunnerProps {
   exercise: ExerciseContent
-  /** Undefined until a PlaygroundRunner strategy is chosen - see ADR 0003. */
+  /** Omit to render the honest "execution unavailable" state - e.g. no PlaygroundRunner is passed at all. */
   runner?: PlaygroundRunner
   onRunComplete?: (result: ExerciseRunResult) => void
 }
@@ -60,7 +63,7 @@ export function ExerciseRunner({
 
     setIsRunning(true)
     try {
-      const run = await runner.run({ code, timeoutMs: 10_000 })
+      const run = await runner.run({ code, timeoutMs: RUN_TIMEOUT_MS })
       const evaluated = evaluateRun(run, exercise.testCases)
       setResult(evaluated)
       onRunComplete?.(evaluated)
@@ -94,6 +97,12 @@ export function ExerciseRunner({
           {isRunning ? 'Running...' : 'Run'}
         </Button>
         {!runner && <Badge variant="outline">Execution unavailable</Badge>}
+        {isRunning && (
+          <span className="text-muted-foreground text-sm">
+            The first run on this page downloads a Java runtime - this can take a
+            moment.
+          </span>
+        )}
       </div>
 
       {result && (

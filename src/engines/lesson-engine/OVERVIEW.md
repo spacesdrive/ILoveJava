@@ -12,7 +12,7 @@ Renders `LessonContent` (see `types.ts`): an ordered list of typed blocks rather
 - `steps` - an ordered sequence (`variant: 'list' | 'timeline'`) for procedural or historical content.
 - `flashcards` - front/back term cards for reviewing key vocabulary.
 - `quiz` - embeds a full `QuizContent`, rendered inline via the existing `QuizRenderer` (`src/features/quizzes`) - not a second quiz UI.
-- `exercise` - embeds a full `ExerciseContent`, rendered inline via the existing `ExerciseRunner` (`src/features/exercises`). No `PlaygroundRunner` is wired up anywhere - see [ADR 0003](../../../docs/decisions/0003-java-code-execution-strategy.md).
+- `exercise` - embeds a full `ExerciseContent`, rendered inline via the existing `ExerciseRunner` (`src/features/exercises`), which compiles and runs real Java code via `wasmJvmRunner` - see [ADR 0003](../../../docs/decisions/0003-java-code-execution-strategy.md).
 - `summary` - key takeaways plus optional further-reading links, for the end of a lesson.
 - `visualization` - resolves against the diagram registry in `src/features/lessons/components/diagrams`.
 - `check` - defined but unused by current content; a lightweight alternative to a full `quiz` block, kept for future lessons that want a single inline question without a full `QuizContent`.

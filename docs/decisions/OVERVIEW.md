@@ -14,7 +14,7 @@ A log of significant architecture decisions and why they were made - not a desig
 | --------------------------------------------------- | ------------------------------------------------ | -------- |
 | [0001](0001-browser-first-csr-architecture.md)      | Browser-first, client-side rendered architecture | accepted |
 | [0002](0002-frontend-tech-stack.md)                 | Frontend tech stack                              | accepted |
-| [0003](0003-java-code-execution-strategy.md)        | Java code execution strategy                     | proposed |
+| [0003](0003-java-code-execution-strategy.md)        | Java code execution strategy                     | accepted |
 | [0004](0004-phase-1-content-engine-dependencies.md) | Phase 1 content engine dependencies              | accepted |
 
 New ADRs: copy [template.md](template.md), number sequentially, add a row above.
