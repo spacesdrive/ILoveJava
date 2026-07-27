@@ -1,9 +1,12 @@
 import * as React from 'react'
 
 type Theme = 'light' | 'dark' | 'system'
+type ResolvedTheme = 'light' | 'dark'
 
 interface ThemeProviderState {
   theme: Theme
+  /** The actual light/dark value in effect - resolves "system" against the OS preference. */
+  resolvedTheme: ResolvedTheme
   setTheme: (theme: Theme) => void
 }
 
@@ -11,16 +14,9 @@ const STORAGE_KEY = 'ilovejava:theme'
 
 const ThemeProviderContext = React.createContext<ThemeProviderState | null>(null)
 
-function applyTheme(theme: Theme) {
-  const root = window.document.documentElement
-  const resolved =
-    theme === 'system'
-      ? window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light'
-      : theme
-
-  root.classList.toggle('dark', resolved === 'dark')
+function resolveTheme(theme: Theme): ResolvedTheme {
+  if (theme !== 'system') return theme
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
@@ -28,14 +24,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (typeof window === 'undefined') return 'system'
     return (localStorage.getItem(STORAGE_KEY) as Theme | null) ?? 'system'
   })
+  const [resolvedTheme, setResolvedTheme] = React.useState<ResolvedTheme>(() =>
+    typeof window === 'undefined' ? 'light' : resolveTheme(theme),
+  )
 
   React.useEffect(() => {
-    applyTheme(theme)
+    const applyResolvedTheme = (next: Theme) => {
+      const resolved = resolveTheme(next)
+      window.document.documentElement.classList.toggle('dark', resolved === 'dark')
+      setResolvedTheme(resolved)
+    }
+
+    applyResolvedTheme(theme)
 
     if (theme !== 'system') return
 
     const media = window.matchMedia('(prefers-color-scheme: dark)')
-    const listener = () => applyTheme('system')
+    const listener = () => applyResolvedTheme('system')
     media.addEventListener('change', listener)
     return () => media.removeEventListener('change', listener)
   }, [theme])
@@ -45,7 +50,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setThemeState(next)
   }, [])
 
-  const value = React.useMemo(() => ({ theme, setTheme }), [theme, setTheme])
+  const value = React.useMemo(
+    () => ({ theme, resolvedTheme, setTheme }),
+    [theme, resolvedTheme, setTheme],
+  )
 
   return (
     <ThemeProviderContext.Provider value={value}>

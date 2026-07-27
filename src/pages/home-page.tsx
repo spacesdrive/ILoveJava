@@ -1,27 +1,31 @@
-import { Link } from 'react-router-dom'
-
-import { Button } from '@/components/ui/button'
 import { Seo } from '@/components/seo/seo'
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/constants/site'
+
+import { CurriculumPreview } from './home/curriculum-preview'
+import { FeatureGrid } from './home/feature-grid'
+import { FinalCta } from './home/final-cta'
+import { HeroSection } from './home/hero-section'
+import { HowItWorks } from './home/how-it-works'
 
 export function HomePage() {
   return (
     <>
       <Seo
         title="Learn Java, Interactively"
-        description="ILoveJava is a free, open source, interactive platform for learning Java - lessons, exercises, playgrounds, and more, all in your browser."
+        description={SITE_DESCRIPTION}
+        structuredData={{
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: SITE_NAME,
+          description: SITE_DESCRIPTION,
+          url: SITE_URL,
+        }}
       />
-      <div className="mx-auto max-w-5xl px-4 py-16 text-center">
-        <h1 className="text-4xl font-semibold tracking-tight">ILoveJava</h1>
-        <p className="text-muted-foreground mx-auto mt-4 max-w-xl">
-          A free, open source, interactive platform for learning Java - lessons,
-          exercises, and playgrounds, all in your browser.
-        </p>
-        <div className="mt-8">
-          <Button asChild size="lg">
-            <Link to="/learn/java-fundamentals">Start Java Fundamentals</Link>
-          </Button>
-        </div>
-      </div>
+      <HeroSection />
+      <FeatureGrid />
+      <HowItWorks />
+      <CurriculumPreview />
+      <FinalCta />
     </>
   )
 }

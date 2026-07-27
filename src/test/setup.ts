@@ -22,3 +22,16 @@ class IntersectionObserverStub {
 }
 globalThis.IntersectionObserver ??=
   IntersectionObserverStub as unknown as typeof IntersectionObserver
+
+// jsdom has no window.matchMedia; ThemeProvider (src/app/providers/theme-provider.tsx)
+// needs it to resolve the "system" theme and watch for OS theme changes.
+globalThis.matchMedia ??= ((query: string) => ({
+  matches: false,
+  media: query,
+  onchange: null,
+  addListener: () => {},
+  removeListener: () => {},
+  addEventListener: () => {},
+  removeEventListener: () => {},
+  dispatchEvent: () => false,
+})) as unknown as typeof window.matchMedia

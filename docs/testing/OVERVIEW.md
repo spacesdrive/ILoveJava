@@ -23,7 +23,8 @@ Accessibility and performance checks are folded into these layers (see below), n
 
 - `indexedDB` - via `fake-indexeddb/auto`, for `src/hooks/use-progress.ts`. Tests in the same file share one in-memory database (the connection is cached module-level in `src/lib/idb.ts`) - use distinct slugs per test rather than trying to reset it between tests.
 - `ResizeObserver` - a no-op stub, needed for `@uiw/react-codemirror` (`src/features/exercises`) to mount in jsdom.
-- `IntersectionObserver` - a no-op stub, needed for Framer Motion's `whileInView` (`LessonSteps` in `src/features/lessons`) to mount in jsdom. It never fires, so scroll-reveal components render in their base/initial state under test - assert against that, not the post-reveal animated state.
+- `IntersectionObserver` - a no-op stub, needed for Framer Motion's `whileInView` (`LessonSteps` in `src/features/lessons`, `FeatureGrid`/`HowItWorks` in `src/pages/home`) to mount in jsdom. It never fires, so scroll-reveal components render in their base/initial state under test - assert against that, not the post-reveal animated state.
+- `matchMedia` - a stub always reporting `matches: false` (light/no-preference), needed for `ThemeProvider` (`src/app/providers/theme-provider.tsx`) to resolve the `system` theme without throwing. Any test rendering `Header` or another `useTheme()` consumer needs to wrap it in `ThemeProvider`.
 
 ## Accessibility in tests
 
