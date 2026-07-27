@@ -77,86 +77,88 @@ export function LessonPage() {
     }))
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-10 px-4 py-10">
-      <Seo
-        title={lesson.title}
-        description={lesson.description}
-        structuredData={{
-          '@context': 'https://schema.org',
-          '@type': 'LearningResource',
-          name: lesson.title,
-          description: lesson.description,
-          educationalLevel: lesson.difficulty,
-          timeRequired: `PT${lesson.estimatedMinutes}M`,
-          isPartOf: {
-            '@type': 'Course',
-            name: JAVA_FUNDAMENTALS_PATH_TITLE,
-            url: `${SITE_URL}/learn/${JAVA_FUNDAMENTALS_PATH_SLUG}`,
-          },
-          url: `${SITE_URL}${lessonHref(lesson.slug)}`,
-        }}
-      />
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="flex max-w-3xl flex-col gap-10">
+        <Seo
+          title={lesson.title}
+          description={lesson.description}
+          structuredData={{
+            '@context': 'https://schema.org',
+            '@type': 'LearningResource',
+            name: lesson.title,
+            description: lesson.description,
+            educationalLevel: lesson.difficulty,
+            timeRequired: `PT${lesson.estimatedMinutes}M`,
+            isPartOf: {
+              '@type': 'Course',
+              name: JAVA_FUNDAMENTALS_PATH_TITLE,
+              url: `${SITE_URL}/learn/${JAVA_FUNDAMENTALS_PATH_SLUG}`,
+            },
+            url: `${SITE_URL}${lessonHref(lesson.slug)}`,
+          }}
+        />
 
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink href={`/learn/${JAVA_FUNDAMENTALS_PATH_SLUG}`}>
-              {JAVA_FUNDAMENTALS_PATH_TITLE}
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>{lesson.title}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href={`/learn/${JAVA_FUNDAMENTALS_PATH_SLUG}`}>
+                {JAVA_FUNDAMENTALS_PATH_TITLE}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{lesson.title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
 
-      <LessonHero
-        title={lesson.title}
-        description={lesson.description}
-        difficulty={lesson.difficulty}
-        estimatedMinutes={lesson.estimatedMinutes}
-        pathTitle={JAVA_FUNDAMENTALS_PATH_TITLE}
-        pathHref={`/learn/${JAVA_FUNDAMENTALS_PATH_SLUG}`}
-        lessonNumber={index + 1}
-        lessonCount={javaFundamentalsLessons.length}
-        prerequisites={prerequisites}
-      />
+        <LessonHero
+          title={lesson.title}
+          description={lesson.description}
+          difficulty={lesson.difficulty}
+          estimatedMinutes={lesson.estimatedMinutes}
+          pathTitle={JAVA_FUNDAMENTALS_PATH_TITLE}
+          pathHref={`/learn/${JAVA_FUNDAMENTALS_PATH_SLUG}`}
+          lessonNumber={index + 1}
+          lessonCount={javaFundamentalsLessons.length}
+          prerequisites={prerequisites}
+        />
 
-      <LessonRenderer
-        lesson={lesson}
-        renderQuizBlock={(quiz, key) => <LessonQuizBlock key={key} quiz={quiz} />}
-        renderExerciseBlock={(exercise, key) => (
-          <LessonExerciseBlock key={key} exercise={exercise} />
-        )}
-      />
+        <LessonRenderer
+          lesson={lesson}
+          renderQuizBlock={(quiz, key) => <LessonQuizBlock key={key} quiz={quiz} />}
+          renderExerciseBlock={(exercise, key) => (
+            <LessonExerciseBlock key={key} exercise={exercise} />
+          )}
+        />
 
-      <LessonCompletion
-        isComplete={isComplete}
-        onMarkComplete={markComplete}
-        next={
-          nextLesson
-            ? { title: nextLesson.title, href: lessonHref(nextLesson.slug) }
-            : undefined
-        }
-      />
+        <LessonCompletion
+          isComplete={isComplete}
+          onMarkComplete={markComplete}
+          next={
+            nextLesson
+              ? { title: nextLesson.title, href: lessonHref(nextLesson.slug) }
+              : undefined
+          }
+        />
 
-      <LessonNavigation
-        previous={
-          previousLesson
-            ? { title: previousLesson.title, href: lessonHref(previousLesson.slug) }
-            : undefined
-        }
-        next={
-          nextLesson
-            ? { title: nextLesson.title, href: lessonHref(nextLesson.slug) }
-            : undefined
-        }
-      />
+        <LessonNavigation
+          previous={
+            previousLesson
+              ? { title: previousLesson.title, href: lessonHref(previousLesson.slug) }
+              : undefined
+          }
+          next={
+            nextLesson
+              ? { title: nextLesson.title, href: lessonHref(nextLesson.slug) }
+              : undefined
+          }
+        />
+      </div>
     </div>
   )
 }
